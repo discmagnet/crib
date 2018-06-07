@@ -1,0 +1,2 @@
+# crib
+Cribbage hand evaluator
