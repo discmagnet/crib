@@ -27,6 +27,7 @@ scored <- function(c1,c2,c3,c4,c5){
   r4 <- substr(c4,1,1)
   r5 <- substr(c5,1,1)
   ranks <- c(r1,r2,r3,r4,r5)
+  
   # ==================================================================================
   # Determine Values
   value <- function(rank){
@@ -50,9 +51,6 @@ scored <- function(c1,c2,c3,c4,c5){
   v4 <- value(r4)
   v5 <- value(r5)
   values <- c(v1,v2,v3,v4,v5)
-  # ==================================================================================
-  # Initialize Points to Zero
-  points <- 0
   
   # ==================================================================================
   # Determine Points from 15's
@@ -87,6 +85,7 @@ scored <- function(c1,c2,c3,c4,c5){
   s3 <- substr(c3,2,2)
   s4 <- substr(c4,2,2)
   s5 <- substr(c5,2,2)
+  suits <- c(s1,s2,s3,s4,s5)
   
   # ==================================================================================
   # Determine Presence of Flush
@@ -103,9 +102,15 @@ scored <- function(c1,c2,c3,c4,c5){
   # ==================================================================================
   # Determine Presence of Knobs
   knobs <- 0
-  
+  for (i in 1:4){
+    if (ranks[i] == "J" & suits[i] == suits[5]){
+      knobs <- 1
+      } else{
+        knobs <- 0
+      }
+  }
   # ==================================================================================
   # Sum Total Points
-  points <- points + fifteens + pair + runs + flush + knobs
+  points <- fifteens + pair + runs + flush + knobs
   return(points)
 }
