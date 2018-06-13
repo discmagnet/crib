@@ -78,6 +78,8 @@ scored <- function(c1,c2,c3,c4,c5){
   # Determine Points from Runs (Lengths of 3, 4, and 5)
   runs <- 0
   
+  # I think the rle() function would make this efficient
+  
   # ==================================================================================
   # Determine Suits
   s1 <- substr(c1,2,2)
@@ -89,6 +91,11 @@ scored <- function(c1,c2,c3,c4,c5){
   
   # ==================================================================================
   # Determine Presence of Flush
+  #
+  # NOTE: Points awarded for a Flush apply to a player's HAND, not the CRIB
+  #       All cards need to be the same suit in the CRIB
+  #       Might need to include an input in the function making the distinction
+  #       between a HAND and the CRIB
   flush <- 0
   if(s1 == s2 & s1 == s3 & s1 == s4){
     if(s1 == s5){
