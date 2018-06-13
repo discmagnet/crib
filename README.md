@@ -1,12 +1,12 @@
----
-title: "Cribbage Hand Evaluator"
-author: "Kyle Kumbier & Ford Hannum"
-date: "June 12, 2018"
-output: github_document
----
+# Cribbage Hand Evaluator
 
-Check out this link!
+## Collaborators
+
+Kyle Kumbier
+Ford Hannum
+
+## Notes
+
+Check out this link. He made a similar algorithm and he lays out the methodology he used.
 
 https://cliambrown.com/cribbage/methodology.php
-
-He made a similar algorithm and he lays out the methodology he used.
