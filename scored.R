@@ -1,4 +1,5 @@
 library(tidyr)
+library(utils)
 
 #Creating a Deck
 suits <- rep(c('h','d','s','c'), each =13)
@@ -25,11 +26,11 @@ scored <- function(c1,c2,c3,c4,c5){
   r3 <- substr(c3,1,1)
   r4 <- substr(c4,1,1)
   r5 <- substr(c5,1,1)
-  
+  ranks <- c(r1,r2,r3,r4,r5)
   # ==================================================================================
   # Determine Values
   value <- function(rank){
-    if(rank == "a") value <- 1
+    if(rank == "A") value <- 1
     else if (rank == "2") value <- 2
     else if (rank == "3") value <- 3
     else if (rank == "4") value <- 4
@@ -38,17 +39,17 @@ scored <- function(c1,c2,c3,c4,c5){
     else if (rank == "7") value <- 7
     else if (rank == "8") value <- 8
     else if (rank == "9") value <- 9
-    else if (rank == "t") value <- 10
-    else if (rank == "j") value <- 10
-    else if (rank == "q") value <- 10
-    else if (rank == "k") value <- 10
+    else if (rank == "T") value <- 10
+    else if (rank == "J") value <- 10
+    else if (rank == "Q") value <- 10
+    else if (rank == "K") value <- 10
   }
   v1 <- value(r1)
   v2 <- value(r2)
   v3 <- value(r3)
   v4 <- value(r4)
   v5 <- value(r5)
-  
+  values <- c(v1,v2,v3,v4,v5)
   # ==================================================================================
   # Initialize Points to Zero
   points <- 0
@@ -57,10 +58,24 @@ scored <- function(c1,c2,c3,c4,c5){
   # Determine Points from 15's
   fifteens <- 0
   
+  for (i in 2:5){
+          combos <- combn(values, i)
+          sums <- colSums(combos)
+          true <- sums == 15
+          count <- sum(true, na.rm = TRUE)
+          fifteens <- fifteens + count
+  }
+  
   # ==================================================================================
   # Determine Points from Pairs
   pair <- 0
   
+  combos <- comb(ranks, 2)
+  for (i in 1:10){
+          if (combos[1,i] == combos[2,i]){
+                  pair <- pair + 1
+          }
+  }
   # ==================================================================================
   # Determine Points from Runs (Lengths of 3, 4, and 5)
   runs <- 0
