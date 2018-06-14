@@ -1,13 +1,3 @@
-library(tidyr)
-library(utils)
-
-#Creating a Deck
-suits <- rep(c('h','d','s','c'), each =13)
-cards <- rep(c('A',2:9, 'T', 'J','Q','K'),4)
-deck <- data.frame(cards, suits)
-deck <- unite(deck, col = 'card', sep = '')
-deck <- as.vector(deck$card)
-
 scored <- function(c1,c2,c3,c4,c5){
   # ==================================================================================
   # The "scored" function calculates the total points in a standard cribbage hand
@@ -18,6 +8,9 @@ scored <- function(c1,c2,c3,c4,c5){
   #   - value of card (A, 2, 3, 4, 5, 6, 7, 8, 9, T, J, Q, K)
   #   - suit of card (h = hearts, d = diamonds, s = spades, c = clubs)
   #   - example = Eight of hearts ~ 8h
+  
+  library(tidyr)
+  library(utils)
   
   # ==================================================================================
   # Determine Ranks
@@ -67,18 +60,47 @@ scored <- function(c1,c2,c3,c4,c5){
   # ==================================================================================
   # Determine Points from Pairs
   pair <- 0
-  
-  combos <- comb(ranks, 2)
+  pair_rk <- vector()
+  combos <- combn(ranks, 2)
   for (i in 1:10){
           if (combos[1,i] == combos[2,i]){
                   pair <- pair + 1
+                  pair_rk <- c(pair_rk, combos[1,i])
           }
   }
   # ==================================================================================
   # Determine Points from Runs (Lengths of 3, 4, and 5)
   runs <- 0
   
-  # I think the rle() function would make this efficient
+  order <- function(rank){
+  if(rank == "A") value <- 1
+  else if (rank == "2") value <- 2
+  else if (rank == "3") value <- 3
+  else if (rank == "4") value <- 4
+  else if (rank == "5") value <- 5
+  else if (rank == "6") value <- 6
+  else if (rank == "7") value <- 7
+  else if (rank == "8") value <- 8
+  else if (rank == "9") value <- 9
+  else if (rank == "T") value <- 10
+  else if (rank == "J") value <- 11
+  else if (rank == "Q") value <- 12
+  else if (rank == "K") value <- 13
+  }
+  o1 <- order(r1)
+  o2 <- order(r2)
+  o3 <- order(r3)
+  o4 <- order(r4)
+  o5 <- order(r5)
+  orders <- c(o1,o2,o3,o4,o5)
+  
+  sorted <- orders[order(unique(orders))]
+  diff <- vector()
+  for (i in 1:4){
+    diff[i] = sorted[i+1] - sorted[i]
+  }
+  y <- rle(diff)
+  run_length <- max(y$lengths[y$values == 1]) + 1
   
   # ==================================================================================
   # Determine Suits
