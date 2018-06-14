@@ -57,6 +57,8 @@ scored <- function(c1,c2,c3,c4,c5){
           fifteens <- fifteens + count
   }
   
+  fifteens_pts <- fifteens * 2
+  
   # ==================================================================================
   # Determine Points from Pairs
   pair <- 0
@@ -73,11 +75,13 @@ scored <- function(c1,c2,c3,c4,c5){
   two_kind <- w$values[w$lengths == 1]
   thr_kind <- w$values[w$lengths == 3]
   
+  pair_pts <- pair * 2
+  
   # ==================================================================================
   # Determine Points from Runs (Lengths of 3, 4, and 5)
   runs <- 0
   
-  order <- function(rank){
+  ordering <- function(rank){
   if(rank == "A") value <- 1
   else if (rank == "2") value <- 2
   else if (rank == "3") value <- 3
@@ -92,22 +96,36 @@ scored <- function(c1,c2,c3,c4,c5){
   else if (rank == "Q") value <- 12
   else if (rank == "K") value <- 13
   }
-  o1 <- order(r1)
-  o2 <- order(r2)
-  o3 <- order(r3)
-  o4 <- order(r4)
-  o5 <- order(r5)
+  o1 <- ordering(r1)
+  o2 <- ordering(r2)
+  o3 <- ordering(r3)
+  o4 <- ordering(r4)
+  o5 <- ordering(r5)
   orders <- c(o1,o2,o3,o4,o5)
   
-  sorted <- orders[order(unique(orders))]
+  sorted <- orders[order(orders)]
   diff <- vector()
+  run_rk <- vector()
   for (i in 1:4){
     diff[i] = sorted[i+1] - sorted[i]
   }
+  # -------------------------------------------- Issues in here ----------------------
+  for (i in 1:3){
+    if (diff[i] == 1 & diff[i+1] == 1){
+      run_rk <- c(run_rk,sorted[i:i+2])
+    }
+  }
+  # ----------------------------------------------------------------------------------
   y <- rle(diff)
   run_length <- max(y$lengths[y$values == 1]) + 1
-  
-  # Still need the ranks involved in the run to determine double and triple runs
+  run_cards <- unique(run_rk)
+  if(run_length < 3){
+    runs <- 0
+    # ---------------------------------------and after here --------------------------
+  } else{
+      runs <- (3*as.integer(order(thr_kind) %in% run_cards) +
+        sum(2*as.integer(order(two_kind) %in% run_cards))) * run_length
+  }
   
   # ==================================================================================
   # Determine Suits
@@ -147,6 +165,6 @@ scored <- function(c1,c2,c3,c4,c5){
   }
   # ==================================================================================
   # Sum Total Points
-  points <- fifteens + pair + runs + flush + knobs
+  points <- fifteens_pts + pair_pts + runs + flush + knobs
   return(points)
 }
