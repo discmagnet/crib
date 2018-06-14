@@ -13,7 +13,7 @@ scored <- function(c1,c2,c3,c4,c5){
   library(utils)
   
   # ==================================================================================
-  # Determine Ranks
+  # Determine Ranks and Suits
   r1 <- substr(c1,1,1)
   r2 <- substr(c2,1,1)
   r3 <- substr(c3,1,1)
@@ -21,8 +21,15 @@ scored <- function(c1,c2,c3,c4,c5){
   r5 <- substr(c5,1,1)
   ranks <- c(r1,r2,r3,r4,r5)
   
+  s1 <- substr(c1,2,2)
+  s2 <- substr(c2,2,2)
+  s3 <- substr(c3,2,2)
+  s4 <- substr(c4,2,2)
+  s5 <- substr(c5,2,2)
+  suits <- c(s1,s2,s3,s4,s5)
+  
   # ==================================================================================
-  # Determine Values
+  # Determine Values and Orderings
   value <- function(rank){
     if(rank == "A") value <- 1
     else if (rank == "2") value <- 2
@@ -45,6 +52,28 @@ scored <- function(c1,c2,c3,c4,c5){
   v5 <- value(r5)
   values <- c(v1,v2,v3,v4,v5)
   
+  ordering <- function(rank){
+    if(rank == "A") value <- 1
+    else if (rank == "2") value <- 2
+    else if (rank == "3") value <- 3
+    else if (rank == "4") value <- 4
+    else if (rank == "5") value <- 5
+    else if (rank == "6") value <- 6
+    else if (rank == "7") value <- 7
+    else if (rank == "8") value <- 8
+    else if (rank == "9") value <- 9
+    else if (rank == "T") value <- 10
+    else if (rank == "J") value <- 11
+    else if (rank == "Q") value <- 12
+    else if (rank == "K") value <- 13
+  }
+  o1 <- ordering(r1)
+  o2 <- ordering(r2)
+  o3 <- ordering(r3)
+  o4 <- ordering(r4)
+  o5 <- ordering(r5)
+  orders <- c(o1,o2,o3,o4,o5)
+  
   # ==================================================================================
   # Determine Points from 15's
   fifteens <- 0
@@ -56,85 +85,31 @@ scored <- function(c1,c2,c3,c4,c5){
           count <- sum(true, na.rm = TRUE)
           fifteens <- fifteens + count
   }
-  
-  fifteens_pts <- fifteens * 2
-  
   # ==================================================================================
   # Determine Points from Pairs
   pair <- 0
-  pair_rk <- vector()
+  
   combos <- combn(ranks, 2)
   for (i in 1:10){
           if (combos[1,i] == combos[2,i]){
                   pair <- pair + 1
-                  pair_rk <- c(pair_rk, combos[1,i])
           }
   }
-  # Create list of Two-of-a-Kinds and Three-of-a-Kinds for Double and Triple Runs
-  w <- rle(pair_rk)
-  two_kind <- w$values[w$lengths == 1]
-  thr_kind <- w$values[w$lengths == 3]
-  
-  pair_pts <- pair * 2
   
   # ==================================================================================
   # Determine Points from Runs (Lengths of 3, 4, and 5)
-  runs <- 0
-  
-  ordering <- function(rank){
-  if(rank == "A") value <- 1
-  else if (rank == "2") value <- 2
-  else if (rank == "3") value <- 3
-  else if (rank == "4") value <- 4
-  else if (rank == "5") value <- 5
-  else if (rank == "6") value <- 6
-  else if (rank == "7") value <- 7
-  else if (rank == "8") value <- 8
-  else if (rank == "9") value <- 9
-  else if (rank == "T") value <- 10
-  else if (rank == "J") value <- 11
-  else if (rank == "Q") value <- 12
-  else if (rank == "K") value <- 13
-  }
-  o1 <- ordering(r1)
-  o2 <- ordering(r2)
-  o3 <- ordering(r3)
-  o4 <- ordering(r4)
-  o5 <- ordering(r5)
-  orders <- c(o1,o2,o3,o4,o5)
-  
+  run_vector <- 0
+
   sorted <- orders[order(orders)]
   diff <- vector()
-  run_rk <- vector()
+  ones <- vector()
+  zero <- vector()
   for (i in 1:4){
-    diff[i] = sorted[i+1] - sorted[i]
+    diff[i] <- sorted[i+1] - sorted[i]
+    ones[i] <- diff[i] == 1
+    zero[i] <- diff[i] == 1 | diff[i] == 0 
   }
-  # -------------------------------------------- Issues in here ----------------------
-  for (i in 1:3){
-    if (diff[i] == 1 & diff[i+1] == 1){
-      run_rk <- c(run_rk,sorted[i:i+2])
-    }
-  }
-  # ----------------------------------------------------------------------------------
-  y <- rle(diff)
-  run_length <- max(y$lengths[y$values == 1]) + 1
-  run_cards <- unique(run_rk)
-  if(run_length < 3){
-    runs <- 0
-    # ---------------------------------------and after here --------------------------
-  } else{
-      runs <- (3*as.integer(order(thr_kind) %in% run_cards) +
-        sum(2*as.integer(order(two_kind) %in% run_cards))) * run_length
-  }
-  
-  # ==================================================================================
-  # Determine Suits
-  s1 <- substr(c1,2,2)
-  s2 <- substr(c2,2,2)
-  s3 <- substr(c3,2,2)
-  s4 <- substr(c4,2,2)
-  s5 <- substr(c5,2,2)
-  suits <- c(s1,s2,s3,s4,s5)
+  runs <- run_vector[sum(2^(which(rev(unlist(as.integer(c(zero,ones))) == 1))-1))]
   
   # ==================================================================================
   # Determine Presence of Flush
@@ -143,7 +118,7 @@ scored <- function(c1,c2,c3,c4,c5){
   #       All cards need to be the same suit in the CRIB
   #       Might need to include an input in the function making the distinction
   #       between a HAND and the CRIB
-  flush <- 0
+  
   if(s1 == s2 & s1 == s3 & s1 == s4){
     if(s1 == s5){
       flush <- 5
@@ -155,7 +130,7 @@ scored <- function(c1,c2,c3,c4,c5){
   }
   # ==================================================================================
   # Determine Presence of Knobs
-  knobs <- 0
+  
   for (i in 1:4){
     if (ranks[i] == "J" & suits[i] == suits[5]){
       knobs <- 1
@@ -165,6 +140,7 @@ scored <- function(c1,c2,c3,c4,c5){
   }
   # ==================================================================================
   # Sum Total Points
-  points <- fifteens_pts + pair_pts + runs + flush + knobs
+  
+  points <- 2*fifteens + 2*pair + runs + flush + knobs
   return(points)
 }
