@@ -68,6 +68,11 @@ scored <- function(c1,c2,c3,c4,c5){
                   pair_rk <- c(pair_rk, combos[1,i])
           }
   }
+  # Create list of Two-of-a-Kinds and Three-of-a-Kinds for Double and Triple Runs
+  w <- rle(pair_rk)
+  two_kind <- w$values[w$lengths == 1]
+  thr_kind <- w$values[w$lengths == 3]
+  
   # ==================================================================================
   # Determine Points from Runs (Lengths of 3, 4, and 5)
   runs <- 0
@@ -101,6 +106,8 @@ scored <- function(c1,c2,c3,c4,c5){
   }
   y <- rle(diff)
   run_length <- max(y$lengths[y$values == 1]) + 1
+  
+  # Still need the ranks involved in the run to determine double and triple runs
   
   # ==================================================================================
   # Determine Suits
