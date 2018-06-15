@@ -14,17 +14,7 @@ https://cliambrown.com/cribbage/methodology.php
 
 ## *`scored`* function
 
-### Determine Ranks and Suits
-
-*credit: Kyle*
-
-Explanation here...
-
-### Determine Values and Orderings
-
-*credit: Kyle*
-
-Explanation here...
+> The "scored" function calculates the total points in a standard cribbage hand after the player discards. Inputs are the 4 remaining cards in the player's hand and the flipped card. The output is the number of points of the player's hand.
 
 ### Determine Points from 15's
 
