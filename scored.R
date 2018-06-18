@@ -1,4 +1,4 @@
-scored <- function(c1,c2,c3,c4,c5){
+scored <- function(hand){
   # ==================================================================================
   # The "scored" function calculates the total points in a standard cribbage hand
   # after the player discards. Inputs are the 4 remaining cards in the player's hand
@@ -14,18 +14,18 @@ scored <- function(c1,c2,c3,c4,c5){
   
   # ==================================================================================
   # Determine Ranks and Suits
-  r1 <- substr(c1,1,1)
-  r2 <- substr(c2,1,1)
-  r3 <- substr(c3,1,1)
-  r4 <- substr(c4,1,1)
-  r5 <- substr(c5,1,1)
+  r1 <- substr(hand[1],1,1)
+  r2 <- substr(hand[2],1,1)
+  r3 <- substr(hand[3],1,1)
+  r4 <- substr(hand[4],1,1)
+  r5 <- substr(hand[5],1,1)
   ranks <- c(r1,r2,r3,r4,r5)
   
-  s1 <- substr(c1,2,2)
-  s2 <- substr(c2,2,2)
-  s3 <- substr(c3,2,2)
-  s4 <- substr(c4,2,2)
-  s5 <- substr(c5,2,2)
+  s1 <- substr(hand[1],2,2)
+  s2 <- substr(hand[2],2,2)
+  s3 <- substr(hand[3],2,2)
+  s4 <- substr(hand[4],2,2)
+  s5 <- substr(hand[5],2,2)
   suits <- c(s1,s2,s3,s4,s5)
   
   # ==================================================================================
