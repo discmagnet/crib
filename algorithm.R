@@ -43,6 +43,7 @@ if(length(full_hand) == 5){
     hand_eval[i,6] <- fivenum(scores)[[3]]
     hand_eval[i,7] <- fivenum(scores)[[4]]
     hand_eval[i,8] <- fivenum(scores)[[5]]
+    hand_out <- arrange(hand_eval,desc(Average))
   }
 }
 
@@ -72,5 +73,6 @@ if(length(full_hand == 6)){
     hand_eval[i,6] <- fivenum(scores)[[3]]
     hand_eval[i,7] <- fivenum(scores)[[4]]
     hand_eval[i,8] <- fivenum(scores)[[5]]
+    hand_out <- arrange(hand_eval,desc(Average))
   }
 }
