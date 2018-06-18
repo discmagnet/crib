@@ -9,7 +9,7 @@ deck <- unite(deck, col = "card", c(cards,suits), sep = "")
 
 # 5- or 6-Card Hand Inputted by the Player
 
-full_hand <- c('Ah', 'Ac', '3d', '2d', '6h')
+full_hand <- c('Ah', 'Ac', '3d', '2d', '6h', '6s')
 
 turn_cards <- vector()
 for (i in 1:52){
@@ -28,71 +28,49 @@ if(length(full_hand) == 5){
   for(i in 1:5){
     hand <- full_hand[-i]
     discard <- full_hand[i]
-    scores <- list()
+    scores <- vector()
     for(j in 1:47){
       flipped <- turn_cards[j]
       count_hand <- c(hand, flipped)
       hand_score <- scored(count_hand)
       scores[j] <- hand_score
     }
-    hand_eval[i,] <- c(paste(hand, collapse = ","), round(mean(scores),1), fivenum(scores)) 
+    hand_eval[i,1] <- paste(hand, collapse = ", ")
+    hand_eval[i,2] <- discard
+    hand_eval[i,3] <- round(mean(scores),2)
+    hand_eval[i,4] <- fivenum(scores)[[1]]
+    hand_eval[i,5] <- fivenum(scores)[[2]]
+    hand_eval[i,6] <- fivenum(scores)[[3]]
+    hand_eval[i,7] <- fivenum(scores)[[4]]
+    hand_eval[i,8] <- fivenum(scores)[[5]]
   }
 }
 
+# For 6-Card Hands
 
-
-#Going through all the combos of four cards in the hand
-
-hand_combos <- function(full_hand){
-        
-
-        
-        #For a five card hand
-        if (length(full_hand) == 5){
-                
-                for (i in 1:5){
-                        
-                        hand <- full_hand[-i]
-                        
-                        scores <- list()
-                        
-                        for (j in 1:47){
-                                turn_card <- potential_turn_cards[j]
-                                turn_hand <- c(hand, turn_card)
-                                hand_score <- scored(turn_hand)
-                                scores[j] <- hand_score
-                        }
-                        
-                   row <- c(paste(hand, collapse = ','), fivenum(scores), 
-                            round(mean(scores),1))     
-                   
-                   df[i,] <- row  
-                }
-        }
-        
-        
-        if (length(full_hand) == 6){
-                for (i in 1:15){
-                        
-                        hand <- combn(hand,4)[,i]
-                        
-                        scores <- list()
-                        
-                        for (j in 1:46){
-                                turn_card <- potential_turn_cards[j]
-                                
-                                turn_hand <- c(hand, turn_card)
-                                
-                                hand_score <- scored(turn_hand)
-                                
-                                scores[j] <- hand_score
-                        }
-                        
-                        row <- c(paste(hand, collapse = ','), fivenum(scores), 
-                                 round(mean(scores),1))     
-                        
-                        df[i,] <- row  
-                }
-        }
+if(length(full_hand == 6)){
+  for (i in 1:15){
+    hand <- combn(full_hand,4)[,i]
+    discard <- vector()
+    for (k in 1:6){
+      if (!(full_hand[k] %in% hand)){
+        discard <- c(discard, full_hand[k])
+      }
+    }
+    scores <- vector()
+    for(j in 1:46){
+      flipped <- turn_cards[j]
+      count_hand <- c(hand, flipped)
+      hand_score <- scored(count_hand)
+      scores[j] <- hand_score
+    }
+    hand_eval[i,1] <- paste(hand, collapse = ", ")
+    hand_eval[i,2] <- paste(discard, collapse = ", ")
+    hand_eval[i,3] <- round(mean(scores),2)
+    hand_eval[i,4] <- fivenum(scores)[[1]]
+    hand_eval[i,5] <- fivenum(scores)[[2]]
+    hand_eval[i,6] <- fivenum(scores)[[3]]
+    hand_eval[i,7] <- fivenum(scores)[[4]]
+    hand_eval[i,8] <- fivenum(scores)[[5]]
+  }
 }
-
