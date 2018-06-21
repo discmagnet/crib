@@ -58,7 +58,26 @@ Once I have the "order" of each card, I can sort them from smallest to biggest. 
 ```
 sorted <- orders[order(orders)]
 ```
-With the cards now arranged in ascending order, I can take the difference between each card. There are 5 cards total, so there will be 4 differences total. The values of these differences are the indicators we need to identify runs. Specifically, we are interested in difference values of '0' and '1'. A difference of '0' indicates a pair; a difference of '1' indicates there is a 1-card increment, creating a run.
+With the cards now arranged in ascending order, I can take the difference between each card. There are 5 cards total, so there will be 4 differences total. The values of these differences are the indicators we need to identify runs. Specifically, we are interested in difference values of '0' and '1'. A difference of '0' indicates a pair; a difference of '1' indicates there is a 1-card increment, creating a run. Since I don't care about values greater than '1', I create two logical vectors. The first, `ones`, detects whether the difference is '1'. The second, `zero`, detects whether the difference is '1' *or* '0'.
+
+```
+  diff <- vector()
+  ones <- vector()
+  zero <- vector()
+  for (i in 1:4){
+    diff[i] <- sorted[i+1] - sorted[i]
+    ones[i] <- diff[i] == 1
+    zero[i] <- diff[i] == 1 | diff[i] == 0 
+  }
+```
+
+Now here's the coolest part of all this! If I merge `zero` and `ones` together and change `TRUE` to '1' and `FALSE` to '0', I now have an 8-bit binary number. Long story short, **this binary number can be converted to an integer which can be used to index a vector that returns the points from runs in your hand**. Wow, what a mouthful!
+
+It would be an understatement to say there are many ways you could make a run, but fortunately, there are only 26 unique ways you can get points from a run according to these unique 8-bit binary identifiers. Don't believe me?! Here they all are:
+
+Cards (sorted) | diff | ones | zero | Binary Code | Index
+-------------- | ---- | ---- | ---- | ----------- | -----
+3 3 6 7 8      | 0311 | 0011 | 1011 | 10110011    | 179
 
 ### Determine Presence of Flush
 
