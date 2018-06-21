@@ -26,9 +26,9 @@ Explanation here...
 
 ### Determine Points from Runs
 
-Boy! This was a fun one! What I'm most proud of: it's very efficient; less than 15 lines of code.
+Boy! This was a fun one! There isn't a lot of code for this part, but a lot of work went in on the side. Let's dive in!
 
-The first thing I have to do is obtain the "order" of the cards, e.g. show that a Jack is 1 lower than a Queen. This was similar to obtaining the "values" of each card.
+The first thing I have to do is obtain the "order" of your cards, e.g. show that a Jack is 1-card lower than a Queen. This was similar to obtaining the "values" of each card for finding 15's.
 
 ```
 ordering <- function(rank){
@@ -53,12 +53,12 @@ o4 <- ordering(r4)
 o5 <- ordering(r5)
 orders <- c(o1,o2,o3,o4,o5)
 ```
-Once I have the "orders" of each card, I can sort them from smallest to biggest. This is done using the `order()` function in R, which returns a permutation that can be used as an index. For example: order(3,8,4,1,5) would return (2,5,3,1,4).
+Once I have the "orders" of each card, I can sort them from smallest to biggest. This is done using the `order()` function in R, which returns a permutation that can be used as an index. For example: `order(c(3,8,4,1,5))` would return `(2,5,3,1,4)`.
 
 ```
 sorted <- orders[order(orders)]
 ```
-With the cards now arranged in ascending order, I can take the difference between each card. There are 5 cards total, so there will be 4 differences total. The values of these differences are the indicators we need to identify runs. Specifically, we are looking for difference values of '0' and '1'. A difference of '0' indicates a pair; a difference of '1' indicates there is a 1-card increment, creating a run.
+With the cards now arranged in ascending order, I can take the difference between each card. There are 5 cards total, so there will be 4 differences total. The values of these differences are the indicators we need to identify runs. Specifically, we are interested in difference values of '0' and '1'. A difference of '0' indicates a pair; a difference of '1' indicates there is a 1-card increment, creating a run.
 
 ### Determine Presence of Flush
 
