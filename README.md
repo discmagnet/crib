@@ -75,9 +75,12 @@ Now here's the coolest part of all this! If I merge `zero` and `ones` together a
 
 It would be an understatement to say there are many ways you could make a run, but fortunately, there are only 26 unique ways you can get points from a run according to these unique 8-bit binary identifiers. Don't believe me?! Here they all are:
 
-Cards (sorted) | diff | ones | zero | Binary Code | Index
--------------- | ---- | ---- | ---- | ----------- | -----
-3 3 6 7 8      | 0311 | 0011 | 1011 | 10110011    | 179
+#### Runs of 3
+
+Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+------- | -------------- | ---- | ---- | ---- | ----------- | -----
+   1    | 3, 3, 6, 7, 8  | 0311 | 0011 | 1011 |  10110011   |  179
+   2    | 3, 4, 6, 7, 8  | 1211 | 1011 | 1011 |  10111011   |  187
 
 ### Determine Presence of Flush
 
