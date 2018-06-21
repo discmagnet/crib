@@ -18,36 +18,34 @@ https://cliambrown.com/cribbage/methodology.php
 
 ### Determine Points from 15's
 
-*credit: Ford*
-
 Explanation here...
 
 ### Determine Points from Pairs
-
-*credit: Ford*
 
 Explanation here...
 
 ### Determine Points from Runs
 
-*credit: Kyle*
 
-Explanation here...
 
 ### Determine Presence of Flush
 
-*credit: Kyle*
+To determine if all the cards in your hand are all the same suit, we test if your first card is the same suit as the rest of your cards using an `if else` statement. If you have a flush and the "flipped" card is also the same suit, you get a bonus point.
 
-Explanation here...
+```
+  if(s1 == s2 & s1 == s3 & s1 == s4){
+    if(s1 == s5) flush <- 5 # the "flipped" card is also the same suit
+      else flush <- 4 # flush, but no bonus point
+  } else flush <- 0
+```
 
 ### Determine Presence of Knobs
 
-*credit: Kyle*
+This may be the stupidest rule of the game. If you hold a Jack in your hand and it is the same suit as the "flipped" card, you get a bonus point (knobs). This can be determined with a simple `for` loop and `if else` statement.
 
-Explanation here...
-
-### Sum Total Points
-
-*credit: trivial*
-
-Explanation here...
+```
+  for(i in 1:4){
+    if(ranks[i] == "J" & suits[i] == suits[5]) knobs <- 1
+      else knobs <- 0
+  }
+```
