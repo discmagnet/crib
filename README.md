@@ -75,9 +75,9 @@ Now here's the coolest part of all this! If I merge `zero` and `ones` together a
 
 It would be an understatement to say there are many ways you could make a run, but fortunately, there are only 26 unique ways you can get points from a run according to these unique 8-bit binary identifiers. Don't believe me?! Here they all are:
 
-#### Single Run of 3 *3 pts*
+#### Single Run of 3 *(3 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    1    | 3, 3, 6, 7, 8  | 0311 | 0011 | 1011 |  10110011   |  179
    2    | 3, 4, 6, 7, 8  | 1211 | 1011 | 1011 |  10111011   |  187
@@ -87,9 +87,9 @@ Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
    6    | 6, 7, 8, J, Q  | 1131 | 1101 | 1101 |  11011101   |  221
    7    | 6, 7, 8, J, K  | 1132 | 1100 | 1100 |  11001100   |  204
    
-#### Double Run of 3 *6 pts*
+#### Double Run of 3 *(6 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    8    | 3, 6, 6, 7, 8  | 3011 | 0011 | 0111 |  01110011   |  115
    9    | 3, 6, 7, 7, 8  | 3101 | 0101 | 0111 |  01110101   |  117
@@ -98,43 +98,48 @@ Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
    12   | 6, 7, 7, 8, J  | 1013 | 1010 | 1110 |  11101010   |  234
    13   | 6, 7, 8, 8, J  | 1103 | 1100 | 1110 |  11101100   |  236
 
-#### Double-Double Run of 3 *12 pts*
+#### Double-Double Run of 3 *(12 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    14   | 6, 6, 7, 7, 8  | 0101 | 0101 | 1111 |  11110101   |  245
    15   | 6, 6, 7, 8, 8  | 0110 | 0110 | 1111 |  11110110   |  246
    16   | 6, 7, 7, 8, 8  | 1010 | 1010 | 1111 |  11111010   |  250
 
-#### Triple Run of 3 *9 pts*
+#### Triple Run of 3 *(9 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    17   | 6, 6, 6, 7, 8  | 0011 | 0011 | 1111 |  11110011   |  243
    18   | 6, 7, 7, 7, 8  | 1001 | 1001 | 1111 |  11111001   |  249
    19   | 6, 7, 8, 8, 8  | 1100 | 1100 | 1111 |  11111100   |  252
 
-#### Single Run of 4 *4 pts*
+#### Single Run of 4 *(4 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    20   | 3, 6, 7, 8, 9  | 3111 | 0111 | 0111 |  01110111   |  119
    21   | 6, 7, 8, 9, Q  | 1113 | 1110 | 1110 |  11101110   |  238
 
-#### Double Run of 4 *8 pts*
+#### Double Run of 4 *(8 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    22   | 6, 6, 7, 8, 9  | 0111 | 0111 | 1111 |  11110111   |  247
    23   | 6, 7, 7, 8, 9  | 1011 | 1011 | 1111 |  11111011   |  251
    24   | 6, 7, 8, 8, 9  | 1101 | 1101 | 1111 |  11111101   |  253
    25   | 6, 7, 8, 9, 9  | 1110 | 1110 | 1111 |  11111110   |  254
 
-#### Single Run of 5 *5 pts*
+#### Single Run of 5 *(5 pts)*
 
-Run No. | Cards (sorted) | diff | ones | zero | Binary Code | Index
+Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    26   | 5, 6, 7, 8, 9  | 1111 | 1111 | 1111 |  11111111   |  255
+
+```
+run_vector <- c(rep(0,50),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7),3,rep(0,16),3,rep(0,15),3,3,rep(0,8),6,0,0,0,6,0,6,0,4,rep(0,4),9,0,12,12,8,0,9,12,8,9,8,8,5)
+runs <- run_vector[sum(2^(which(rev(unlist(as.integer(c(zero,ones))) == 1))-1))]
+```
 
 ### Determine Presence of Flush
 
