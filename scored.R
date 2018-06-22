@@ -111,7 +111,7 @@ scored <- function(hand){
     ones[i] <- diff[i] == 1
     zero[i] <- diff[i] == 1 | diff[i] == 0 
   }
-  runs <- run_vector[sum(2^(which(rev(unlist(as.integer(c(zero,ones))) == 1))-1))]
+  runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))]
   
   # ==================================================================================
   # Determine Presence of Flush

@@ -138,7 +138,7 @@ Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 
 ```
 run_vector <- c(rep(0,50),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7),3,rep(0,16),3,rep(0,15),3,3,rep(0,8),6,0,0,0,6,0,6,0,4,rep(0,4),9,0,12,12,8,0,9,12,8,9,8,8,5)
-runs <- run_vector[sum(2^(which(rev(unlist(as.integer(c(zero,ones))) == 1))-1))]
+runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))]
 ```
 
 ### Determine Presence of Flush
