@@ -18,15 +18,57 @@ https://cliambrown.com/cribbage/methodology.php
 
 ### Determine Points from 15's
 
-Explanation here...
+Once I have the "values" of all the cards (e.g. all face cards worth 10),
+
+```
+value <- function(rank){
+  if(rank == "A") value <- 1
+  else if (rank == "2") value <- 2
+  else if (rank == "3") value <- 3
+  else if (rank == "4") value <- 4
+  else if (rank == "5") value <- 5
+  else if (rank == "6") value <- 6
+  else if (rank == "7") value <- 7
+  else if (rank == "8") value <- 8
+  else if (rank == "9") value <- 9
+  else if (rank == "T") value <- 10
+  else if (rank == "J") value <- 10
+  else if (rank == "Q") value <- 10
+  else if (rank == "K") value <- 10
+}
+v1 <- value(r1)
+v2 <- value(r2)
+v3 <- value(r3)
+v4 <- value(r4)
+v5 <- value(r5)
+values <- c(v1,v2,v3,v4,v5)
+```
+I can determine the 10 two-card, 10 three-card, 5 four-card, and 1 five-card combinations utilizing a `for` loop and the `combn()` function. Then, I can count the number of combinations where the sum of the values is 15.
+
+```
+for (i in 2:5){
+  combos <- combn(values, i)
+  sums <- colSums(combos)
+  true <- sums == 15
+  count <- sum(true, na.rm = TRUE)
+  fifteens <- fifteens + count
+}
+```
 
 ### Determine Points from Pairs
 
-Explanation here...
+In a similar manner, to determine the number of pairs, I also use the `combn()` function. This time I count the number of times the "ranks" are the same among the 10 different two-card combinations.
+
+```
+combos <- combn(ranks, 2)
+for (i in 1:10){
+  if (combos[1,i] == combos[2,i]) pair <- pair + 1
+}
+```
 
 ### Determine Points from Runs
 
-Boy! This was a fun one! There isn't a lot of code for this part, but a lot of work went in on the side. Let's dive in!
+There isn't a lot of code for this part, but A LOT of work went in on the side.
 
 The first thing I have to do is obtain the "order" of your cards, e.g. show that a Jack is 1-card lower than a Queen. This was similar to obtaining the "values" of each card for finding 15's.
 
@@ -61,14 +103,14 @@ sorted <- orders[order(orders)]
 With the cards now arranged in ascending order, I can take the difference between each card. There are 5 cards total, so there will be 4 differences total. The values of these differences are the indicators we need to identify runs. Specifically, we are interested in difference values of '0' and '1'. A difference of '0' indicates a pair; a difference of '1' indicates there is a 1-card increment, creating a run. Since I don't care about values greater than '1', I create two logical vectors. The first, `ones`, detects whether the difference is '1'. The second, `zero`, detects whether the difference is '1' *or* '0'.
 
 ```
-  diff <- vector()
-  ones <- vector()
-  zero <- vector()
-  for (i in 1:4){
-    diff[i] <- sorted[i+1] - sorted[i]
-    ones[i] <- diff[i] == 1
-    zero[i] <- diff[i] == 1 | diff[i] == 0 
-  }
+diff <- vector()
+ones <- vector()
+zero <- vector()
+for (i in 1:4){
+  diff[i] <- sorted[i+1] - sorted[i]
+  ones[i] <- diff[i] == 1
+  zero[i] <- diff[i] == 1 | diff[i] == 0 
+}
 ```
 
 Now here's the coolest part of all this! If I merge `zero` and `ones` together and change `TRUE` to '1' and `FALSE` to '0', I now have an 8-bit binary number. Long story short, **this binary number can be converted to an integer which can be used to index a vector that returns the points from runs in your hand**. Wow, what a mouthful!
@@ -137,8 +179,8 @@ Run No. | Card Example   | diff | ones | zero | Binary Code | Index
    26   | 5, 6, 7, 8, 9  | 1111 | 1111 | 1111 |  11111111   |  255
 
 ```
-run_vector <- c(rep(0,50),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7),3,rep(0,16),3,rep(0,15),3,3,rep(0,8),6,0,0,0,6,0,6,0,4,rep(0,4),9,0,12,12,8,0,9,12,8,9,8,8,5)
-runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))]
+run_vector <- c(rep(0,51),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7),3,rep(0,16),3,rep(0,15),3,3,rep(0,8),6,0,0,0,6,0,6,0,4,rep(0,4),9,0,12,12,8,0,9,12,8,9,8,8,5)
+runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))+1]
 ```
 
 ### Determine Presence of Flush
@@ -146,10 +188,10 @@ runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))]
 To determine if all the cards in your hand are the same suit, we test if your first card is the same suit as the rest of your cards using an `if else` statement. If you have a flush and the "flipped" card is also the same suit, you get a bonus point.
 
 ```
-  if(s1 == s2 & s1 == s3 & s1 == s4){
-    if(s1 == s5) flush <- 5 # the "flipped" card is also the same suit
-      else flush <- 4 # flush, but no bonus point
-  } else flush <- 0
+if(s1 == s2 & s1 == s3 & s1 == s4){
+  if(s1 == s5) flush <- 5 # the "flipped" card is also the same suit
+    else flush <- 4 # flush, but no bonus point
+} else flush <- 0
 ```
 
 ### Determine Presence of Knobs
@@ -157,8 +199,8 @@ To determine if all the cards in your hand are the same suit, we test if your fi
 This may be the stupidest rule of the game. If you hold a Jack in your hand and it is the same suit as the "flipped" card, you get a bonus point (knobs). This can be determined with a simple `for` loop and `if else` statement.
 
 ```
-  for(i in 1:4){
-    if(ranks[i] == "J" & suits[i] == suits[5]) knobs <- 1
-      else knobs <- 0
-  }
+for(i in 1:4){
+  if(ranks[i] == "J" & suits[i] == suits[5]) knobs <- 1
+    else knobs <- 0
+}
 ```
