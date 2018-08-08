@@ -184,7 +184,7 @@ The following line of code populates the run vector. The correct point values ar
 run_vector <- c(rep(0,51),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7),3,rep(0,16),3,rep(0,15),3,3,rep(0,8),6,0,0,0,6,0,6,0,4,rep(0,4),9,0,12,12,8,0,9,12,8,9,8,8,5)
 ```
 
-This final line of code retrieves the correct point value bases on your particular hand.
+This final line of code retrieves the point value of your hand from the run vector.
 
 ```
 runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))+1]
@@ -196,7 +196,7 @@ runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))+1]
 
 [C] `which(B)` returns the indices of where the reversed Binary Code contained 1's.
 
-[D] `sum(2^(C-1))+1` finishes the computation.
+[D] `sum(2^(C-1))+1` finishes the conversion computation.
 
 ### Determine Presence of Flush
 
