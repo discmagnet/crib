@@ -68,7 +68,7 @@ for (i in 1:10){
 
 ### Determine Points from Runs
 
-There isn't a lot of code for this part, but A LOT of work went in on the side.
+There isn't as much code as you would expect for this part, but A LOT of work went in on the side.
 
 The first thing I have to do is obtain the "order" of your cards, e.g. show that a Jack is 1-card lower than a Queen. This was similar to obtaining the "values" of each card for finding 15's.
 
@@ -113,7 +113,7 @@ for (i in 1:4){
 }
 ```
 
-Now here's the coolest part of all this! If I merge `zero` and `ones` together and change `TRUE` to '1' and `FALSE` to '0', I now have an 8-bit binary number. Long story short, **this binary number can be converted to an integer which can be used to index a vector that returns the points from runs in your hand**. Wow, what a mouthful!
+Now here's the cool part. If I merge `zero` and `ones` together and change `TRUE` to '1' and `FALSE` to '0', I now have an 8-bit binary number. Long story short, **this binary number can be converted to an integer which can be used to index a vector that returns the points from runs in your hand**.
 
 It would be an understatement to say there are many ways you could make a run, but fortunately, there are only 26 unique ways you can get points from a run according to these unique 8-bit binary identifiers. Don't believe me?! Here they all are:
 
@@ -178,8 +178,20 @@ Run No. | Card Example   | diff | ones | zero | Binary Code | Index
 -------:|:--------------:|:----:|:----:|:----:|:-----------:|:-----
    26   | 5, 6, 7, 8, 9  | 1111 | 1111 | 1111 |  11111111   |  255
 
+The following line of code populates the run vector. The correct point values are assigned to their respective indices. 
+
 ```
 run_vector <- c(rep(0,51),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7),3,rep(0,16),3,rep(0,15),3,3,rep(0,8),6,0,0,0,6,0,6,0,4,rep(0,4),9,0,12,12,8,0,9,12,8,9,8,8,5)
+```
+
+This final line of code retrieves the correct point value bases on your particular hand.
+
+[A] `c(zero,ones)` is the Binary Code of your hand.
+[B] `rev(A)` reverses the order of the Binary Code, the first step to convert from Binary to Decimal.
+[C] `which(B)` returns the indices of where the reversed Binary Code contained 1's.
+[D] `sum(2^(C-1))+1` finishes the computation.
+
+```
 runs <- run_vector[sum(2^(which(rev(c(zero,ones)))-1))+1]
 ```
 
