@@ -187,8 +187,11 @@ run_vector <- c(rep(0,51),3,rep(0,50),3,rep(0,12),6,0,6,6,4,rep(0,59),3,rep(0,7)
 This final line of code retrieves the correct point value bases on your particular hand.
 
 [A] `c(zero,ones)` is the Binary Code of your hand.
+
 [B] `rev(A)` reverses the order of the Binary Code, the first step to convert from Binary to Decimal.
+
 [C] `which(B)` returns the indices of where the reversed Binary Code contained 1's.
+
 [D] `sum(2^(C-1))+1` finishes the computation.
 
 ```
