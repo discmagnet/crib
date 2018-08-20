@@ -2,8 +2,8 @@ library(shiny)
 library(tidyr)
 library(utils)
 library(dplyr)
-source('~/WORKING_DIRECTORIES/crib/scored.R')
-source('~/WORKING_DIRECTORIES/crib/algorithm.R')
+source('https://raw.githubusercontent.com/discmagnet/crib/master/scored.R')
+source('https://raw.githubusercontent.com/discmagnet/crib/master/algorithm.R')
 
 # Creating the 52-Card Deck
 suits <- rep(c('h','d','s','c'), each =13)
@@ -21,54 +21,66 @@ ui <- fluidPage(
                   choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
                               "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
                   ),
-      selectInput(inputId = "s1",
+      radioButtons(inputId = "s1",
                   label = "Card 1 Suit",
-                  choices = c("","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d")
+                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       selectInput(inputId = "r2",
                   label = "Card 2 Rank",
                   choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
                               "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
                   ),
-      selectInput(inputId = "s2",
+      radioButtons(inputId = "s2",
                   label = "Card 2 Suit",
-                  choices = c("","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d")
+                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       selectInput(inputId = "r3",
                   label = "Card 3 Rank",
                   choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
                               "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
                   ),
-      selectInput(inputId = "s3",
+      radioButtons(inputId = "s3",
                   label = "Card 3 Suit",
-                  choices = c("","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d")
+                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       selectInput(inputId = "r4",
                   label = "Card 4 Rank",
                   choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
                               "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
                   ),
-      selectInput(inputId = "s4",
+      radioButtons(inputId = "s4",
                   label = "Card 4 Suit",
-                  choices = c("","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d")
+                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       selectInput(inputId = "r5",
                   label = "Card 5 Rank",
                   choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
                               "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
                   ),
-      selectInput(inputId = "s5",
+      radioButtons(inputId = "s5",
                   label = "Card 5 Suit",
-                  choices = c("","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d")
+                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       selectInput(inputId = "r6",
                   label = "Card 6 Rank (if applicable)",
                   choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
                               "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
                   ),
-      selectInput(inputId = "s6",
+      radioButtons(inputId = "s6",
                   label = "Card 6 Suit (if applicable)",
-                  choices = c("","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d")
+                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE,
+                  selected = character(0)
                   )
     ),
     mainPanel(
