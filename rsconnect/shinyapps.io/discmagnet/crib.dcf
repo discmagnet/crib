@@ -5,6 +5,6 @@ account: discmagnet
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 403498
-bundleId: 1545027
+bundleId: 1545661
 url: https://discmagnet.shinyapps.io/crib/
-when: 1534791538.09676
+when: 1534810711.30779

@@ -16,10 +16,11 @@ ui <- fluidPage(
   titlePanel("Cribbage Hand Evaluator"),
   sidebarLayout(
     sidebarPanel(
-      selectInput(inputId = "r1",
+      radioButtons(inputId = "r1",
                   label = "Card 1 Rank",
-                  choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
-                              "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
+                  choices = c("A","2","3","4","5","6","7","8","9","10" = "T","J","Q","K"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       radioButtons(inputId = "s1",
                   label = "Card 1 Suit",
@@ -27,10 +28,11 @@ ui <- fluidPage(
                   inline = TRUE,
                   selected = character(0)
                   ),
-      selectInput(inputId = "r2",
+      radioButtons(inputId = "r2",
                   label = "Card 2 Rank",
-                  choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
-                              "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
+                  choices = c("A","2","3","4","5","6","7","8","9","10" = "T","J","Q","K"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       radioButtons(inputId = "s2",
                   label = "Card 2 Suit",
@@ -38,10 +40,11 @@ ui <- fluidPage(
                   inline = TRUE,
                   selected = character(0)
                   ),
-      selectInput(inputId = "r3",
+      radioButtons(inputId = "r3",
                   label = "Card 3 Rank",
-                  choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
-                              "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
+                  choices = c("A","2","3","4","5","6","7","8","9","10" = "T","J","Q","K"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       radioButtons(inputId = "s3",
                   label = "Card 3 Suit",
@@ -49,10 +52,11 @@ ui <- fluidPage(
                   inline = TRUE,
                   selected = character(0)
                   ),
-      selectInput(inputId = "r4",
+      radioButtons(inputId = "r4",
                   label = "Card 4 Rank",
-                  choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
-                              "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
+                  choices = c("A","2","3","4","5","6","7","8","9","10" = "T","J","Q","K"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       radioButtons(inputId = "s4",
                   label = "Card 4 Suit",
@@ -60,10 +64,11 @@ ui <- fluidPage(
                   inline = TRUE,
                   selected = character(0)
                   ),
-      selectInput(inputId = "r5",
+      radioButtons(inputId = "r5",
                   label = "Card 5 Rank",
-                  choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
-                              "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
+                  choices = c("A","2","3","4","5","6","7","8","9","10" = "T","J","Q","K"),
+                  inline = TRUE,
+                  selected = character(0)
                   ),
       radioButtons(inputId = "s5",
                   label = "Card 5 Suit",
@@ -71,16 +76,15 @@ ui <- fluidPage(
                   inline = TRUE,
                   selected = character(0)
                   ),
-      selectInput(inputId = "r6",
+      radioButtons(inputId = "r6",
                   label = "Card 6 Rank (if applicable)",
-                  choices = c("","Ace"="A","2","3","4","5","6","7","8","9",
-                              "10" = "T","Jack" = "J","Queen" = "Q","King" = "K")
+                  choices = c("N/A"="","A","2","3","4","5","6","7","8","9","10" = "T","J","Q","K"),
+                  inline = TRUE
                   ),
       radioButtons(inputId = "s6",
                   label = "Card 6 Suit (if applicable)",
-                  choices = c("Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
-                  inline = TRUE,
-                  selected = character(0)
+                  choices = c("N/A"="","Club"="c","Spade" = "s","Heart" = "h","Diamond" = "d"),
+                  inline = TRUE
                   )
     ),
     mainPanel(
